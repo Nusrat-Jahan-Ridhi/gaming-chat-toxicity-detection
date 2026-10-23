@@ -1,90 +1,138 @@
-# Multi-Level Toxicity Detection in Online Gaming Chats Using Machine Learning and NLP
+# 🎮 Multi-Level Toxicity Detection in Online Gaming Chats Using Machine Learning and NLP
 
-## Project Overview
+## 📌 Project Overview
 
-This project focuses on detecting and classifying toxic messages in online gaming chats using Machine Learning (ML) and Natural Language Processing (NLP). It aims to identify different levels of toxicity to help create safer and more respectful online gaming environments.
+Online gaming communities allow players to communicate and collaborate, but they can also expose users to cyberbullying, hate speech, and aggressive language. Traditional keyword-based filters can be bypassed using gaming slang and leetspeak, such as `k1ll` or `h@te`.
 
-The system classifies chat messages into five categories:
+This project develops a **multi-level toxicity detection system** using Machine Learning (ML) and Natural Language Processing (NLP) to classify online gaming chat messages into five toxicity severity levels. It combines traditional machine learning models with a transformer-based model and includes a Streamlit-based user interface for toxicity detection.
 
-- **Clean**
-- **Mild**
-- **Moderate**
-- **Severe**
-- **Extreme**
+## 🎯 Project Objectives
 
-## Objectives
+- Detect toxic language in online gaming chats.
+- Classify messages into five levels of toxicity rather than using only binary toxic/non-toxic classification.
+- Apply text preprocessing and leetspeak normalization to handle noisy text and intentional misspellings.
+- Compare traditional machine learning models with a transformer-based deep learning model.
+- Explore a practical approach to identifying toxic communication in online gaming environments.
 
-- Detect toxic language in online gaming chat messages.
-- Classify messages according to their toxicity levels.
-- Compare different machine learning and deep learning approaches.
-- Apply text preprocessing and leetspeak normalization to improve text analysis.
-- Develop a user interface using Streamlit for toxicity detection.
+## 🤖 Models Implemented
 
-## Models Used
+The project compares three classification models:
 
-The project explores three approaches:
-
-1. **Multinomial Naive Bayes** — a machine learning model used for text classification.
-2. **Random Forest** — an ensemble learning model used to classify messages based on extracted text features.
-3. **DistilBERT** — a transformer-based language model fine-tuned for toxicity classification.
-
-## Technologies Used
-
-- Python
-- Natural Language Processing (NLP)
-- Scikit-learn
-- TF-IDF Vectorization
-- DistilBERT
-- Jupyter Notebook
-- Streamlit
-- Pickle (`.pkl`) for saving model-related objects
-
-## Dataset
-
-The project uses the **Jigsaw Toxic Comment dataset** for toxicity classification.
-
-Text preprocessing includes cleaning and normalizing text, including leetspeak normalization, to help the models process gaming chat messages.
-
-## Project Files
-
-| File | Description |
+| Model | Approach |
 |---|---|
-| `app.py` | Streamlit application for the user interface and toxicity detection |
-| `backend.ipynb` | Jupyter Notebook containing the project's backend code and experiments |
-| `label_encoder.pkl` | Saved label encoder used for handling class labels |
-| `Naive Bayes model.pkl` | Saved Naive Bayes model |
-| `TF-IDF vectorizer.pkl` | Saved TF-IDF vectorizer for transforming text into numerical features |
+| Multinomial Naive Bayes | Probabilistic machine learning |
+| Random Forest | Ensemble machine learning |
+| DistilBERT | Transformer-based deep learning |
 
-**Note:** The `random_forest_model.pkl` file is not included in this repository because of its large file size (approximately 284 MiB). The Random Forest model may need to be regenerated from the notebook or obtained separately. The application may require modification or the missing model file if it loads the Random Forest model at startup.
+## 🏷️ Toxicity Classification
 
-## Reported Results
+Messages are categorized into five severity levels using rule-based mapping of the original Jigsaw dataset labels.
 
-According to the project's evaluation:
+| Toxicity Level | Original Dataset Labels |
+|---|---|
+| Clean | None |
+| Mild | Toxic, Insult |
+| Moderate | Obscene |
+| Severe | Severe Toxic, Identity Hate |
+| Extreme | Threat, Threat Keywords |
 
-- **Random Forest:** Reported weighted F1-score of 0.9112.
-- **DistilBERT:** Reported accuracy of 92.20%, with a weighted F1-score of 0.6570.
+## 🛠️ Technologies and Techniques
 
-These results illustrate why multiple evaluation metrics are useful when comparing models for multi-class toxicity classification.
+- **Programming Language:** Python
+- **Machine Learning:** Scikit-learn
+- **Natural Language Processing:** NLTK and text preprocessing
+- **Feature Extraction:** TF-IDF vectorization with unigram and bigram features
+- **Deep Learning:** DistilBERT and Hugging Face Transformers
+- **Application Interface:** Streamlit
+- **Development Environment:** Jupyter Notebook
 
-## How to Run
+## 🧹 Methodology
+
+The project follows these main stages:
+
+1. **Dataset loading:** Use the Jigsaw Toxic Comment Classification dataset.
+2. **Rule-based categorization:** Map the original toxicity labels into five severity levels.
+3. **Text preprocessing:** Convert text to lowercase and remove HTML tags, URLs, punctuation, numbers, and extra whitespace.
+4. **Leetspeak normalization:** Normalize substitutions such as `h4te` to `hate`.
+5. **Feature extraction:** Use TF-IDF with unigram and bigram features for traditional machine learning models.
+6. **Model training:** Train Multinomial Naive Bayes and Random Forest, and fine-tune DistilBERT using tokenized text.
+7. **Evaluation:** Compare model performance using accuracy, weighted precision, weighted recall, and weighted F1-score.
+8. **User interface:** Provide a Streamlit-based interface for toxicity detection.
+
+The report describes an **80:20 stratified training/testing split**. DistilBERT was fine-tuned with a maximum sequence length of 128 and two training epochs.
+
+## 📊 Model Performance
+
+The following results are reported in the project paper.
+
+| Evaluation Metric | Multinomial Naive Bayes | Random Forest | DistilBERT |
+|---|---:|---:|---:|
+| Test Accuracy | 89.59% | **92.39%** | 92.20% |
+| Weighted Precision | 0.8748 | **0.9092** | 0.7020 |
+| Weighted Recall | 0.8959 | **0.9237** | 0.6270 |
+| Weighted F1-Score | 0.8617 | **0.9112** | 0.6570 |
+
+### 🔍 Key Findings
+
+- **Random Forest achieved the best overall balance** across the reported evaluation metrics.
+- Multinomial Naive Bayes provided a useful baseline for toxicity classification.
+- DistilBERT achieved competitive test accuracy but a substantially lower weighted F1-score, indicating weaker overall performance across the toxicity classes.
+- The report discusses short text sequences and class imbalance as possible challenges for transformer-based classification in gaming chat scenarios.
+
+## 📁 Repository Structure
+
+The repository contains the following project files:
+
+```text
+gaming-chat-toxicity-detection/
+├── app.py
+├── backend.ipynb
+├── label_encoder.pkl
+├── Naive Bayes model.pkl
+└── TF-IDF vectorizer.pkl
+```
+
+**Note:** `random_forest_model.pkl` is not included in the repository because of its large file size (approximately 284 MiB). The report's Random Forest results are included above, but the saved model file is not currently available in the repository. If the application requires this file, it must be provided separately or regenerated using the appropriate training code.
+
+## 🚀 Running the Application
+
+### Prerequisites
+
+- Python installed on your system
+- The required Python libraries
+- All model and preprocessing files required by the application
+
+### Steps
 
 1. Clone or download this repository.
-2. Install the required Python packages.
-3. Ensure that all model files required by the application are available.
-4. Run the Streamlit application:
+2. Install the dependencies required by the project.
+3. Ensure that the required model files are available.
+4. Start the Streamlit application:
 
-   ```bash
-   streamlit run app.py
-   ```
+```bash
+streamlit run app.py
+```
 
-**Important:** The application may not run successfully if it requires the missing Random Forest model file. Refer to `backend.ipynb` to review the training workflow and regenerate the model if the notebook contains the necessary training code.
+**Important:** The application may not run as expected until the missing Random Forest model dependency is resolved. Check `app.py` and `backend.ipynb` for the exact model-loading and training requirements.
 
-## Future Improvements
+## 🔮 Future Improvements
 
-- Improve classification performance across all toxicity levels.
-- Test the system on additional gaming chat datasets.
-- Improve the user interface and provide clearer explanations of predictions.
+As discussed in the report, possible future improvements include:
 
-## Project Purpose
+- Extending toxicity detection to multilingual content, particularly Bengali gaming chats.
+- Integrating speech-to-text for voice-chat moderation.
+- Connecting the system with gaming platforms and Discord servers.
+- Evaluating larger, more diverse gaming-specific datasets.
 
-This project demonstrates the application of machine learning and NLP techniques to toxicity detection, with a focus on identifying different levels of harmful language in online gaming conversations.
+## 📚 Dataset Reference
+
+**Jigsaw Toxic Comment Classification Challenge — Kaggle**
+
+https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge
+
+## 👥 Academic Project
+
+Developed as a machine learning laboratory project at the **Bangladesh University of Professionals (BUP)**.
+
+The project explores how Machine Learning and NLP can help identify different levels of toxic communication and contribute to safer online gaming communities.
+
